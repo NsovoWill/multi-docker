@@ -1,0 +1,24 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t nsovomashaba/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true nsovomashaba/react-test npm run test -- --coverage 
+
+after_success:
+  - docker build -t nsovomashaba/multi-client ./client
+  - docker build -t nsovomashaba/multi-nginx ./nginx
+  - docker build -t nsovomashaba/multi-server ./server
+  - docker build -t nsovomashaba/multi-worker ./worker
+
+#take images and push them to docker hub
+#use docker login command to 
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+# pushing images to dockerhub
+  - docker push nsovomashaba/multi-client
+  - docker push nsovomashaba/multi-nginx
+  - docker push nsovomashaba/multi-server
+  - docker push nsovomashaba/multi-worker
