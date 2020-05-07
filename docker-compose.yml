@@ -25,7 +25,7 @@ services:
       - PGDATABASE=postgres
       - PGPASSWORD=postgres
       - PGPORT=5432
-  
+
   nginx:
     build: 
       dockerfile: Dockerfile.dev

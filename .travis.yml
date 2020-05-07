@@ -22,3 +22,20 @@ after_success:
   - docker push nsovomashaba/multi-nginx
   - docker push nsovomashaba/multi-server
   - docker push nsovomashaba/multi-worker
+
+deploy:
+  provider: elasticbeanstalk
+   #aws region where the container is located, DockerReact-env.eba-8xqfk7i4.us-east-2.elasticbeanstalk.com
+  region: us-east-2
+  app: multi-docker              
+  env: MultiDocker-env
+  bucket_name: elasticbeanstalk-us-east-2-679308915134
+  bucket_path: docker-multi
+  #only attempt to deploy when we push code to master
+  on: 
+    branch: master
+     #generate API keys on aws - use travic CI to store the key do not store this in the file 
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
+    #secure : $AWS_SECRET_KEY is used only when we have encrypted our keys and etc see: https://docs.travis-ci.com/user/environment-variables/ and https://docs.travis-ci.com/user/encryption-keys#usage
+  skip_cleanup: true
