@@ -48,7 +48,6 @@ app.get('/values/all', async (req, res) => {
   console.log('user', keys.pgUser)
   console.log('port', keys.pgPort)
 
-
   pgClient.connect((err, client, release) => {
     if (err) {
       return console.log('Error acquiring client', err.stack)
